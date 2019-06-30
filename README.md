@@ -178,16 +178,7 @@ pip3 install sqlalchemy flask-sqlalchemy psycopg2 bleach requests
 
 Edit Authorized JavaScript origins
 
-#### 11. `Extra Step` Clone the Neighborhood map app from GitHub
-```
-cd /var/www/
-sudo mkdir map
-sudo chown grader:grader map
-git clone https://github.com/AliMahmoud7/neighborhood-map-fsnd
-```
-Go to [<Instance_IP>:8000](<Instance_IP>:8000/) to view it
-
-#### 12. Configure apache server
+#### 11. Configure apache server
 ```
 sudo nano /etc/apache2/sites-enabled/000-default.conf
 ```
@@ -213,43 +204,7 @@ Then add the following content:
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
-#### 13. `Extra Step` Configure `mod_wsgi` to work with python 3.6
-* Building python 3.6 from source
-```
-sudo apt install build-essential
-sudo apt install libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev 
-sudo apt install libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev tk-dev
-
-wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz
-tar xf Python-3.6.2.tar.xz
-cd Python-3.6.2
-./configure --enable-shared --enable-optimizations
-make
-sudo make altinstall
-sudo cp libpython3.6m.so.1.0 /usr/local/lib
-sudo cp libpython3.6m.so.1.0 /usr/lib
-ln -fs /usr/local/bin/python3.6 /usr/bin/python3.6
-sudo nano /etc/ld.so.conf.d/python36.conf
-```
-Then add the following text:
-```
-/usr/local/lib/python3.6
-/usr/local/lib
-```
-
-* Install the mod_wsgi 4.5.18 or latest version
-```
-wget "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.18.tar.gz"
-tar xf 4.5.18.tar.gz
-cd mod_wsgi-4.5.18
-./configure --with-python=/usr/local/bin/python3.6
-make
-sudo make install
-```
-* **Note:** Make sure that your virtual environment using the same version of python used by `mod_wsgi`,
-When you create a new one with `virtualenv` tool use `-p` or `--python=` flag to specify the python interpreter path, In my case is `/usr/local/bin/python3.6` so use `virtualenv --python=/usr/local/bin/python3.6 env`
-
-#### 14. Reload & Restart Apache Server
+#### 12. Reload & Restart Apache Server
 ```
 sudo service apache2 reload
 sudo service apache2 restart
